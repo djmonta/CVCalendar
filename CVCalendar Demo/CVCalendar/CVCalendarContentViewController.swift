@@ -72,6 +72,52 @@ extension CVCalendarContentViewController {
     }
 }
 
+//MARK: - Month Refresh
+
+extension CVCalendarContentViewController {
+    public func refreshPresentedMonth() {
+        for weekV in presentedMonthView.weekViews {
+            for dayView in weekV.dayViews {
+                removeCircleLabel(dayView)
+                removeDotViews(dayView)
+                dayView.preliminarySetup()
+                dayView.supplementarySetup()
+            }
+        }
+    }
+}
+
+
+// MARK: Delete circle and dot views (in effect refreshing the dayView circle)
+
+extension CVCalendarContentViewController {
+    func removeCircleLabel(dayView: CVCalendarDayView) {
+        for each in dayView.subviews {
+            if each is UILabel {
+                continue
+            }
+            else if each is CVAuxiliaryView  {
+                continue
+            }
+            else {
+                each.removeFromSuperview()
+            }
+        }
+    }
+}
+
+//MARK: Delete dot views (in effect refreshing the dayView dots)
+
+extension CVCalendarContentViewController {
+    func removeDotViews(dayView: CVCalendarDayView) {
+        for each in dayView.subviews {
+            if each is CVAuxiliaryView && each.frame.height == 13 {
+                each.removeFromSuperview()
+            }
+        }
+    }
+}
+
 // MARK: - Abstract methods
 
 /// UIScrollViewDelegate
